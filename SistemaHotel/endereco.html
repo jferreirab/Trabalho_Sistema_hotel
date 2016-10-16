@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="enderecoModule">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Sistema Hotel</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	
+	<script src="js/angular.min.js"></script>
+	<script src="control/enderecoControl.js"></script>
+
+  </head>
+<body ng-controller="enderecoControl">
+
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   <script src="js/jquery-1.12.2.min.js"></script>
+   <!-- Include all compiled plugins (below), or include individual files as needed -->
+   <script src="js/bootstrap.min.js"></script>
+	
+   <div ng-include="'menu.html'"></div>
+	
+   <div class="panel panel-default">
+   	   <div class="panel-heading">Cadastro de Endereço</div>
+   	   <div class="panel-body">
+	   	  <div>
+		      <!-- Nav tabs -->		 		
+		      <ul class="nav nav-tabs" role="tablist">
+			      <li role="presentation" class="active">
+			          <a href="#cadastro" aria-controls="cadastro" role="tab" data-toggle="tab">Cadastro Endereço</a></li>
+			      <li role="presentation">
+			         <a href="#dados" aria-controls="dados" role="tab" data-toggle="tab">Dados</a></li>
+		      </ul>
+		      <!-- Tab panes -->
+		      <div class="tab-content">
+			      <div role="tabpanel" class="tab-pane active" id="cadastro">
+			          <br>				
+				      <form>
+					      <div class="form-group">
+						      <button type="button" ng-click="novo()" class="btn btn-info">Novo</button>
+						      <button type="submit" ng-click="salvar()" class="btn btn-success">Salvar</button>
+						      <button type="button" ng-click="excluir()" class="btn btn-danger">Excluir</button>
+						      <button type="button" ng-click="pesquisar()" class="btn btn-warning">Pesquisar</button>
+						  </div>	
+				          <hr/>	
+				          <div class="form-group col-md-2">
+					         <label for="inputCodigo">Código:</label>
+					         <input type="number" class="form-control" disabled="true" ng-model="logradouro.codigo" id="inputCodigo" placeholder="Código do Endereço">
+				          </div>
+				          <div class="form-group col-sm-2">
+				              <label for="inputTipoLogradouro" >Tipo Logradouro:</label>				      
+					          <select  class="form-control"
+					            ng-model="logradouro.tipoLogradouro"
+					            ng-options="tipoLogradouro for tipoLogradouro in tipoLogradouros">					             
+					          </select>				     
+						  </div>				  
+						  <div class="form-group col-md-3">
+							<label for="inputNome">Nome Logradouro:</label>
+							<input type="text" class="form-control" ng-model="logradouro.nomeLogradouro" id="inputNome" placeholder="Insira nome logradouro">
+						  </div>
+						  <div class="form-group col-md-3">
+							<label for="inputNome">Bairro:</label>
+							<input type="text" class="form-control" ng-model="logradouro.bairro" id="inputNome" placeholder="Insira o bairro">
+						  </div>
+						  <div class="form-group col-md-2">
+							<label for="inputNome">CEP:</label>
+							<input type="text" class="form-control" ng-model="logradouro.cep" id="inputNome" placeholder="Insira o CEP">
+						  </div>				  
+						  <div class="form-group col-sm-3">
+						      <label for="inputCidade" >Cidade:</label>					     
+					          <select  class="form-control"
+					            ng-model="logradouro.cidade"
+					            ng-options="cidade.cidadeUF for cidade in cidades track by cidade.codigo">					             
+					          </select>				     
+						  </div>
+						  <div class="form-group col-md-2">
+							<label for="inputEstado">Estado:</label>
+							<input type="text" class="form-control" disabled="true" ng-model="logradouro.cidade.estado.nomeEstado" id="inputCodigo" placeholder="Nome Estado">
+						  </div>				   		  
+				      </form>				
+			      </div>
+			      <div role="tabpanel" class="tab-pane" id="dados">
+					  <br>
+					  <input type="text" class="form-control" ng-model="criterio"
+							placeholder="O que você está procurando?" />
+					  <br>							
+					  <table class="table table-striped table-bordered table-hover">
+							<tr>
+							<th>Código</th>
+							<th>Tipo Logradouro</th>
+							<th>Nome Logradouro</th>
+							<th>Bairro</th>
+							<th>CEP</th>
+							<th>Cidade</th>
+							<th>Estado</th>
+							</tr>
+							<tbody>
+							<tr ng-repeat="logradouroTabela in logradouros | filter:criterio" 
+								ng-click="seleciona(logradouroTabela)">					
+								<td>{{logradouroTabela.codigo}}</td>
+								<td>{{logradouroTabela.tipoLogradouro}}</td>
+								<td>{{logradouroTabela.nomeLogradouro}}</td>
+								<td>{{logradouroTabela.bairro}}</td>
+								<td>{{logradouroTabela.cep}}</td>
+								<td>{{logradouroTabela.cidade.nomeCidade}}</td>
+								<td>{{logradouroTabela.cidade.estado.nomeEstado}}</td>
+							</tr>
+							</tbody>
+						</table>
+					    <span ng-show="(logradouros | filter:criterio).length == 0">Infelizmente
+			                  não temos o item que você está procurando!</span>
+			      </div>
+		      </div>
+	   	  </div>
+   	   </div>
+   </div>		
+</body>
+</html>
