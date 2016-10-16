@@ -15,8 +15,7 @@ public class CidadeDao implements ICidadeDao {
 	
 	@PersistenceContext(unitName="AplicacaoHotelPU")
 	private EntityManager entityManager;
-	
-	
+		
 	@Override
 	@Transactional
 	public void salvar(Cidade cidade) {
