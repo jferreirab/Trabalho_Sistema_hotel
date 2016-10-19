@@ -13,7 +13,7 @@ import br.com.hotel.model.domain.Cidade;
 @Model
 public class CidadeDao implements ICidadeDao { 
 	
-	@PersistenceContext(unitName="AplicacaoHotelPU")
+	@PersistenceContext(unitName="AplicacaoHotelPU") 
 	private EntityManager entityManager;
 		
 	@Override
