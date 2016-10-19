@@ -56,4 +56,12 @@ public class LogradouroService implements ILogradouroService {
 	public List<Logradouro> buscarTodos() {
 		return logradouroDao.buscar(new Logradouro());
 	}
+	
+	@GET
+	@Override
+	@Path("/desc/{nomeLogradouro}")
+	public List<Logradouro> buscarPelaDescricao(@PathParam("nomeLogradouro") String nome) {
+		return logradouroDao.buscarPelaDescricao(nome);
+	}
+	
 }

@@ -15,4 +15,6 @@ public interface ILogradouroService {
 	List<Logradouro> buscarTodos();
 	
 	public Logradouro buscarPorId(Integer codigo);
+
+	List<Logradouro> buscarPelaDescricao(String nome);
 }

@@ -15,4 +15,6 @@ public interface ILogradouroDao {
 	List<Logradouro> buscar(Logradouro logradouro);
 
 	Logradouro buscarPorId(Integer id);
+
+	List<Logradouro> buscarPelaDescricao(String nome);
 }

@@ -51,4 +51,14 @@ public class LogradouroDao implements ILogradouroDao {
 		query.setParameter("codigo",id);
 		return (Logradouro)query.getSingleResult();
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Logradouro> buscarPelaDescricao(String nome){
+		Query query = entityManager.createQuery("from Logradouro where nomeLogradouro LIKE :nomeLogradouro ");
+		
+		query.setParameter("nomeLogradouro", "%"+nome+"%");
+		 List<Logradouro> temp =query.getResultList();
+		 return temp;
+	}
 }
