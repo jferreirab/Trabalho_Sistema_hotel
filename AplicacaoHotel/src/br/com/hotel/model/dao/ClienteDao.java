@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 
 import br.com.hotel.model.domain.Cliente;
 
-
 @Model
 public class ClienteDao implements IClienteDao {
 	
