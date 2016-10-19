@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import br.com.hotel.model.domain.Cliente;
 
 @Model
-public class ClienteDao implements IClienteDao {
+public class ClienteDao implements IClienteDao { 
 	
 	@PersistenceContext(unitName="AplicacaoHotelPU")
 	private EntityManager entityManager;

@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import br.com.hotel.model.domain.Logradouro;
 
 @Model
-public class LogradouroDao implements ILogradouroDao {
+public class LogradouroDao implements ILogradouroDao { 
 	
 	@PersistenceContext(unitName="AplicacaoHotelPU")
 	private EntityManager entityManager;

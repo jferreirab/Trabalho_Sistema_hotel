@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @Table(name="TB_ESTADO")
-public class Estado implements Serializable{
+public class Estado implements Serializable { 
 	
 
 	/**

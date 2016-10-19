@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 import br.com.hotel.model.domain.Cidade;
 
 @Model
-public class CidadeDao implements ICidadeDao {
+public class CidadeDao implements ICidadeDao { 
 	
 	@PersistenceContext(unitName="AplicacaoHotelPU")
 	private EntityManager entityManager;
