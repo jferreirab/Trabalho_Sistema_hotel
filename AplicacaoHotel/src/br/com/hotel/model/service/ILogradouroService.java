@@ -2,11 +2,15 @@ package br.com.hotel.model.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.executable.ValidateOnExecution;
+
 import br.com.hotel.model.domain.Logradouro;
 
 public interface ILogradouroService {
   
-	void salvar(Logradouro logradouro);
+	@ValidateOnExecution
+	Logradouro salvar(@Valid Logradouro logradouro);
 
 	void atualizar(Logradouro logradouro);
 

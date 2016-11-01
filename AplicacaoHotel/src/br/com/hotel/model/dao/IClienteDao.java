@@ -6,13 +6,13 @@ import br.com.hotel.model.domain.Cliente;
 
 public interface IClienteDao {
 	
-	void salvar(Cliente cliente);
+	public Cliente salvar(Cliente cliente);
 
-	void atualizar(Cliente cliente);
+	public void atualizar(Cliente cliente);
 
-	void excluir(Integer id);
+	public void excluir(Integer id);
 
-	List<Cliente> buscar(Cliente cliente);
+	public List<Cliente> buscar(Cliente cliente);
 
-	Cliente buscarPorId(Integer id);
+	public Cliente buscarPorId(Integer id);
 }

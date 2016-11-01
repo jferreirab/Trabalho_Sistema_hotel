@@ -2,11 +2,15 @@ package br.com.hotel.model.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.executable.ValidateOnExecution;
+
 import br.com.hotel.model.domain.Cidade;
 
 public interface ICidadeService {
      
-	void salvar(Cidade cidade);
+	@ValidateOnExecution
+	Cidade salvar(@Valid Cidade cidade);
 
 	void atualizar(Cidade cidade);
 

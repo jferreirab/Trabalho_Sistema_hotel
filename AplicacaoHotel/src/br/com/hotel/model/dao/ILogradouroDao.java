@@ -6,15 +6,15 @@ import br.com.hotel.model.domain.Logradouro;
 
 public interface ILogradouroDao {
  
-	void salvar(Logradouro logradouro);
+	public Logradouro salvar(Logradouro logradouro);
 
-	void atualizar(Logradouro logradouro);
+	public void atualizar(Logradouro logradouro);
 
-	void excluir(Integer id);
+	public void excluir(Integer id);
 
-	List<Logradouro> buscar(Logradouro logradouro);
+	public List<Logradouro> buscar(Logradouro logradouro);
 
-	Logradouro buscarPorId(Integer id);
+	public Logradouro buscarPorId(Integer id);
 
-	List<Logradouro> buscarPelaDescricao(String nome);
+	public List<Logradouro> buscarPelaDescricao(String nome);
 }

@@ -28,8 +28,8 @@ public class CidadeService implements ICidadeService{
 
 	@Override
 	@POST
-	public void salvar(Cidade cidade) {
-		cidadeDao.salvar(cidade);
+	public Cidade salvar(Cidade cidade) {
+	  return cidadeDao.salvar(cidade);
 	}
 
 	@Override

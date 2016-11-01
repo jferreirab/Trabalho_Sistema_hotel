@@ -18,8 +18,9 @@ public class LogradouroDao implements ILogradouroDao {
 	
 	@Override
 	@Transactional
-	public void salvar(Logradouro logradouro) {
+	public Logradouro salvar(Logradouro logradouro) {
 		entityManager.persist(logradouro);
+		return logradouro;
 	}
 	
 

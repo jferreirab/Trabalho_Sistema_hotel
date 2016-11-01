@@ -18,8 +18,9 @@ public class ReservaDao implements IReservaDao {
 		
 	@Override
 	@Transactional
-	public void salvar(Reserva reserva) {
+	public Reserva salvar(Reserva reserva) {
 		entityManager.persist(reserva);
+		return reserva;
 	}
 	
 

@@ -27,8 +27,8 @@ public class LogradouroService implements ILogradouroService {
 
 	@Override
 	@POST
-	public void salvar(Logradouro logradouro) {
-		logradouroDao.salvar(logradouro);
+	public Logradouro salvar(Logradouro logradouro) {
+		return logradouroDao.salvar(logradouro);
 	}
 
 	@Override

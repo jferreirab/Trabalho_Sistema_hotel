@@ -2,11 +2,15 @@ package br.com.hotel.model.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.executable.ValidateOnExecution;
+
 import br.com.hotel.model.domain.Estado;
 
 public interface IEstadoService {
 	
-	void salvar(Estado estado);
+	@ValidateOnExecution
+	Estado salvar(@Valid Estado estado);
 
 	void atualizar(Estado estado);
 

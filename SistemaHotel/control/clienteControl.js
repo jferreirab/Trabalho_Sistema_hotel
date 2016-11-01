@@ -4,6 +4,7 @@ app.controller('clienteControl',function($scope,$http) {
 	urlcliente = 'http://127.0.0.1:8080/AplicacaoHotel/rs/cliente';
 	urlsexo = 'http://127.0.0.1:8080/AplicacaoHotel/rs/sexo';
 	urlLogradouro = 'http://127.0.0.1:8080/AplicacaoHotel/rs/logradouro';
+	urlBuscaLogradDesc='/desc';
 	
 	
 	$scope.pesquisarLogradouro = function() {
@@ -63,6 +64,26 @@ app.controller('clienteControl',function($scope,$http) {
 		 		
 	}
 	
+	$scope.pesquisaEndereco = '';
+	$scope.showModal = true;
+	
+	$scope.pesquisaEnderecoDescricao = function() {
+		if($scope.pesquisaEndereco == ''){
+			alert('Iinforme Pelo menos uma letra para a busca do nome do logradouro!');
+		}else{
+			urlpesquisa = urlLogradouro + urlBuscaLogradDesc +'/'+$scope.pesquisaEndereco;
+			$http.get(urlpesquisa).success(function(logradouros) {
+				$scope.logradouros = logradouros;
+				$scope.showModal = true;
+				//$scope.pesquisar();
+				//$scope.novo();
+			}).error(function (erro){
+				alert(erro);
+			});
+		}
+		 		
+	}
+	
 	$scope.novo = function () { 
 		$scope.cliente = {};
 	}; 	
@@ -77,7 +98,7 @@ app.controller('clienteControl',function($scope,$http) {
 	
 	$scope.pesquisar();
 	$scope.pesquisarSexo();
-	$scope.pesquisarLogradouro();
+	//$scope.pesquisarLogradouro();
 
 	
 });

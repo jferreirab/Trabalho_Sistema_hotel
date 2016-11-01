@@ -18,8 +18,9 @@ public class CidadeDao implements ICidadeDao {
 		
 	@Override
 	@Transactional
-	public void salvar(Cidade cidade) {
+	public Cidade salvar(Cidade cidade) {
 		entityManager.persist(cidade);
+		return cidade;
 	}
 	
 

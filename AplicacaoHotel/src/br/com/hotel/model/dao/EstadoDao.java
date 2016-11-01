@@ -19,8 +19,9 @@ public class EstadoDao implements IEstadoDao {
 	
 	@Override
 	@Transactional
-	public void salvar(Estado estado) {
+	public Estado salvar(Estado estado) {
 		entityManager.persist(estado);
+		return estado;
 	}
 	
 

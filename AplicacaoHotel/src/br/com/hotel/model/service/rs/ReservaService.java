@@ -27,8 +27,8 @@ public class ReservaService implements IReservaService {
 
 	@Override
 	@POST
-	public void salvar(Reserva reserva) {
-		reservaDao.salvar(reserva);
+	public Reserva salvar(Reserva reserva) {
+		return reservaDao.salvar(reserva);
 	}
 
 	@Override
