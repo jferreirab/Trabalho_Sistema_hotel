@@ -7,10 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+
 import br.com.hotel.model.domain.Logradouro;
 
 @Model
-public class LogradouroDao implements ILogradouroDao {
+public class LogradouroDao implements ILogradouroDao { 
 	
 	@PersistenceContext(unitName="AplicacaoHotelPU")
 	private EntityManager entityManager;
