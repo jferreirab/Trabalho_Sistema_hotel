@@ -50,6 +50,28 @@ public class Cliente implements Serializable{
 	
 	@Column(name="DS_EMAIL")
 	private String email;
+	
+	@Column(name="DS_TELEFONE")
+	private String telefone;
+	
+	@Column(name="DS_CELULAR")
+	private String celular;
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
 
 	public Cliente() {
 		super();

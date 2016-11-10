@@ -619,3 +619,6 @@
   border-left: 0;
 }
 /*# sourceMappingURL=jasny-bootstrap.css.map */
+.custom-width-modal {
+  width: 800px;
+}

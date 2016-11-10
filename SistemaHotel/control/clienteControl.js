@@ -6,7 +6,7 @@ app.controller('clienteControl',function($scope,$http) {
 	urlLogradouro = 'http://127.0.0.1:8080/AplicacaoHotel/rs/logradouro';
 	urlBuscaLogradDesc='/desc';
 	
-	
+		
 	$scope.pesquisarLogradouro = function() {
 		$http.get(urlLogradouro).success(function (logradouros) {
 			$scope.logradouros = logradouros;
@@ -24,21 +24,31 @@ app.controller('clienteControl',function($scope,$http) {
 	}
 	
 	$scope.salvar = function() {
-		if($scope.cliente.codigo == ''){
+		if($scope.cliente.codigo == undefined || $scope.cliente.codigo == ''){
 			$http.post(urlcliente,$scope.cliente).success(function(cliente){
 				$scope.clientes.push($scope.cliente);
 				$scope.novo();
+				$scope.mensagens.push('Cliente salva com sucesso');
 			}).error(function (erro){
-				alert(erro);
+				$scope.montaMensagemErro(erro.parameterViolations);
 			});
 		}else{
 			$http.put(urlcliente,$scope.cliente).success(function(cliente) {
 				$scope.pesquisar();
 				$scope.novo();
+				$scope.mensagens.push('Cliente atualizada com sucesso');
 			}).error(function (erro) {
-				alert(erro);
+				$scope.montaMensagemErro(erro.parameterViolations);
 			});
 		}
+	}
+	
+	$scope.montaMensagemErro = function(listaErro) {
+		$scope.mensagensDanger = [];
+		$scope.mensagensDanger.push('Falha de validação retornada do servidor');
+		angular.forEach(listaErro, function(value, key){
+			 $scope.mensagensDanger.push(value.message);
+		});
 	}
 	
 	$scope.pesquisar = function() {
@@ -50,50 +60,76 @@ app.controller('clienteControl',function($scope,$http) {
 	}
 	
 	$scope.excluir = function() {
-		if($scope.cliente.codigo == ''){
-			alert('selecione um cliente');
+		if($scope.cliente.codigo == undefined || $scope.cliente.codigo == ''){
+			$scope.mensagens.push('selecione um cliente');
 		}else{
 			urlExcluir = urlcliente+'/'+$scope.cliente.codigo;
 			$http.delete(urlExcluir).success(function() {
 				$scope.pesquisar();
 				$scope.novo();
+				$scope.mensagens.push('Cliente excluída com sucesso');
 			}).error(function (erro){
-				alert(erro);
+				$scope.montaMensagemErro(erro.parameterViolations);
 			});
 		}
 		 		
 	}
 	
 	$scope.pesquisaEndereco = '';
-	$scope.showModal = true;
+	$scope.showModal = false;
+	//$scope.showModal1 = true;
 	
 	$scope.pesquisaEnderecoDescricao = function() {
-		if($scope.pesquisaEndereco == ''){
-			alert('Iinforme Pelo menos uma letra para a busca do nome do logradouro!');
-		}else{
+		/*if($scope.pesquisaEndereco == ''){
+			
+		}else{*/
+			$scope.mensagens_model = [];
+			if($scope.pesquisaEndereco == '' ){
+				urlpesquisa = urlLogradouro; 
+			}else{
 			urlpesquisa = urlLogradouro + urlBuscaLogradDesc +'/'+$scope.pesquisaEndereco;
+			}
 			$http.get(urlpesquisa).success(function(logradouros) {
 				$scope.logradouros = logradouros;
-				$scope.showModal = true;
-				//$scope.pesquisar();
-				//$scope.novo();
+				if($scope.logradouros.length == 0){
+					$scope.mensagens_model.push('Endereço não Encontrado!');
+				}
 			}).error(function (erro){
-				alert(erro);
+				//alert(erro);
+				$scope.montaMensagemErroModel(erro.parameterViolations);
 			});
-		}
+		//}
 		 		
 	}
 	
+	$scope.montaMensagemErroModel = function(listaErro) {
+		$scope.mensagens_model = [];
+		$scope.mensagens_model.push('Falha de validação retornada do servidor');
+		angular.forEach(listaErro, function(value, key){
+			 $scope.mensagens_model.push(value.message);
+		});
+	}
+	 
+	
 	$scope.novo = function () { 
 		$scope.cliente = {};
+		$scope.mensagens = [];
+		$scope.mensagens_model = [];
+		$scope.mensagensDanger = [];
 	}; 	
 	
 	$scope.seleciona = function (cliente) {
 		$scope.cliente = cliente; 
+		$scope.mensagens = [];
 	};	
 	
 	$scope.selecionaLogradouro = function (logradouro) {
+		if($scope.cliente == undefined ){
+			$scope.cliente={};
+		}
+			
 		$scope.cliente.endereco = logradouro; 
+		
 	};
 	
 	$scope.pesquisar();
@@ -102,3 +138,4 @@ app.controller('clienteControl',function($scope,$http) {
 
 	
 });
+

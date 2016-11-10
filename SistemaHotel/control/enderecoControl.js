@@ -21,21 +21,31 @@ app.controller('enderecoControl',function($scope,$http) {
 	}
 	
 	$scope.salvar = function() {
-		if($scope.logradouro.codigo == ''){
+		if($scope.logradouro.codigo == undefined || $scope.logradouro.codigo == ''){
 			$http.post(urlLogradouro,$scope.logradouro).success(function(logradouro){
 				$scope.logradouros.push($scope.logradouro);
 				$scope.novo();
+				$scope.mensagens.push('Endereço salva com sucesso');
 			}).error(function (erro){
-				alert(erro);
+				$scope.montaMensagemErro(erro.parameterViolations);
 			});
 		}else{
 			$http.put(urlLogradouro,$scope.logradouro).success(function(logradouro) {
 				$scope.pesquisar();
 				$scope.novo();
+				$scope.mensagens.push('Endereço atualizada com sucesso');
 			}).error(function (erro) {
-				alert(erro);
+				$scope.montaMensagemErro(erro.parameterViolations);
 			});
 		}
+	}
+	
+	$scope.montaMensagemErro = function(listaErro) {
+		$scope.mensagens = [];
+		$scope.mensagens.push('Falha de validação retornada do servidor');
+		angular.forEach(listaErro, function(value, key){
+			 $scope.mensagens.push(value.message);
+		});
 	}
 	
 	$scope.pesquisar = function() {
@@ -47,15 +57,16 @@ app.controller('enderecoControl',function($scope,$http) {
 	}
 	
 	$scope.excluir = function() {
-		if($scope.logradouro.codigo == ''){
-			alert('selecione um logradouro');
+		if( $scope.logradouro.codigo == undefined || $scope.logradouro.codigo == ''){
+			$scope.mensagens.push('selecione um logradouro');
 		}else{
 			urlExcluir = urlLogradouro+'/'+$scope.logradouro.codigo;
 			$http.delete(urlExcluir).success(function() {
 				$scope.pesquisar();
 				$scope.novo();
+				$scope.mensagens.push('Endereço excluída com sucesso');
 			}).error(function (erro){
-				alert(erro);
+				$scope.montaMensagemErro(erro.parameterViolations);
 			});
 		}
 		 		
@@ -63,6 +74,7 @@ app.controller('enderecoControl',function($scope,$http) {
 	
 	$scope.novo = function () { 
 		$scope.logradouro = {};
+		$scope.mensagens = [];
 	}; 	
 	
 	$scope.seleciona = function (logradouro) {
