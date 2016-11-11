@@ -8,27 +8,26 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import br.com.hotel.model.domain.Cliente;
+import br.com.hotel.model.domain.Reserva;
 
 @Model
-public class ClienteDao implements IClienteDao { 
-	
+public class ReservaDao implements IReservaDao {
+
 	@PersistenceContext(unitName="AplicacaoHotelPU")
 	private EntityManager entityManager;
-	
-	
+		
 	@Override
 	@Transactional
-	public Cliente salvar(Cliente cliente) {
-		entityManager.persist(cliente);
-		return cliente;
+	public Reserva salvar(Reserva reserva) {
+		entityManager.persist(reserva);
+		return reserva;
 	}
 	
 
 	@Override
 	@Transactional
-	public void atualizar(Cliente cliente) {
-		Cliente merge = entityManager.merge(cliente);
+	public void atualizar(Reserva reserva) {
+		Reserva merge = entityManager.merge(reserva);
 		entityManager.persist(merge);
 	}
 
@@ -36,21 +35,21 @@ public class ClienteDao implements IClienteDao {
 	@Override
 	@Transactional
 	public void excluir(Integer id) {
-		Cliente merge = entityManager.merge(new Cliente(id));
+		Reserva merge = entityManager.merge(new Reserva(id));
 		entityManager.remove(merge);
 	}
 
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Cliente> buscar(Cliente cliente) {
-		Query query = entityManager.createQuery("from Cliente");
+	public List<Reserva> buscar(Reserva reserva) {
+		Query query = entityManager.createQuery("from Reserva");
 		return query.getResultList();
 	}
 
-	public Cliente buscarPorId(Integer id) {
-		Query query = entityManager.createQuery("from Cliente where codigo = :codigo");
+	public Reserva buscarPorId(Integer id) {
+		Query query = entityManager.createQuery("from Reserva where codigo = :codigo");
 		query.setParameter("codigo",id);
-		return (Cliente)query.getSingleResult();
+		return (Reserva)query.getSingleResult();
 	}
 }

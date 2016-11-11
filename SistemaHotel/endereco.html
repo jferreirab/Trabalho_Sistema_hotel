@@ -39,6 +39,7 @@
 			      <div role="tabpanel" class="tab-pane active" id="cadastro">
 			          <br>				
 				      <form>
+				          <span ng-repeat="mensagem in mensagens">{{mensagem}}<br></span>
 					      <div class="form-group">
 						      <button type="button" ng-click="novo()" class="btn btn-info">Novo</button>
 						      <button type="submit" ng-click="salvar()" class="btn btn-success">Salvar</button>

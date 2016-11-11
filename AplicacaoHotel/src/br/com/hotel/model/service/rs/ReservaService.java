@@ -13,48 +13,47 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import br.com.hotel.model.dao.ICidadeDao;
-import br.com.hotel.model.domain.Cidade;
-import br.com.hotel.model.service.ICidadeService;
+import br.com.hotel.model.dao.IReservaDao;
+import br.com.hotel.model.domain.Reserva;
+import br.com.hotel.model.service.IReservaService;
 
-@Path("/cidade")
+@Path("/reserva")
 @Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-public class CidadeService implements ICidadeService{
+public class ReservaService implements IReservaService {
 
-	
 	@Inject
-	private ICidadeDao cidadeDao;
+	private IReservaDao reservaDao;
 
 	@Override
 	@POST
-	public Cidade salvar(Cidade cidade) {
-	  return cidadeDao.salvar(cidade);
+	public Reserva salvar(Reserva reserva) {
+		return reservaDao.salvar(reserva);
 	}
 
 	@Override
 	@PUT
-	public void atualizar(Cidade cidade) {
-		cidadeDao.atualizar(cidade);
+	public void atualizar(Reserva reserva) {
+		reservaDao.atualizar(reserva);
 	}
 
 	@Override
 	@DELETE
 	@Path("/{codigo}")
 	public void excluir(@PathParam("codigo") Integer codigo) {
-		cidadeDao.excluir(codigo);
+		reservaDao.excluir(codigo);
 	}
 	
 	@GET
 	@Override
 	@Path("/{codigo}")
-	public Cidade buscarPorId(@PathParam("codigo") Integer codigo) {
-		return cidadeDao.buscarPorId(codigo);
+	public Reserva buscarPorId(@PathParam("codigo") Integer codigo) {
+		return reservaDao.buscarPorId(codigo);
 	}
 
 	@Override
 	@GET
-	public List<Cidade> buscarTodos() {
-		return cidadeDao.buscar(new Cidade());
+	public List<Reserva> buscarTodos() {
+		return reservaDao.buscar(new Reserva());
 	}
 }

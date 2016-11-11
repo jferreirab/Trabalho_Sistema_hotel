@@ -29,8 +29,8 @@ public class EstadoService implements IEstadoService{
 
 		@Override
 		@POST
-		public void salvar(Estado estado) {
-			estadoDao.salvar(estado);
+		public Estado salvar(Estado estado) {
+			return estadoDao.salvar(estado);
 		}
 
 		@Override

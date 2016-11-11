@@ -9,9 +9,11 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jasny-bootstrap.css" rel="stylesheet">
 	
 	<script src="js/angular.min.js"></script>
 	<script src="control/clienteControl.js"></script>
+	<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
 
   </head>
 <body ng-controller="clienteControl">
@@ -40,6 +42,8 @@
 			<div role="tabpanel" class="tab-pane active" id="cadastro">
 			<br>				
 				<form>
+				    <h3> <span class="label label-success" ng-repeat="mensagem in mensagens">{{mensagem}}<br></span></h3>
+				    <h3> <span class="label label-danger" ng-repeat="mensagemDanger in mensagensDanger">{{mensagemDanger}}<br></span></h3>
 					<div class="form-group">
 						<button type="button" ng-click="novo()" class="btn btn-info">Novo</button>
 						<button type="submit" ng-click="salvar()" class="btn btn-success">Salvar</button>
@@ -57,7 +61,7 @@
 				  </div>
 				  <div class="form-group col-md-3">
 					<label for="inputNome">CPF:</label>
-					<input type="text" class="form-control" ng-model="cliente.cpf" id="inputNome" placeholder="Insira o cpf">
+					<input type="text" class="form-control"  ng-model="cliente.cpf" id="inputNome" placeholder="Insira o cpf">
 				  </div>		  
 				   <div class="form-group col-sm-2">
 				      <label for="inputSexo" >Sexo:</label>
@@ -67,25 +71,42 @@
 				             >
 				           			             
 			          </select>
-			      </div>	
+			      </div>
+			      <div class="form-group col-md-3">
+					<label for="inputNome">Email:</label>
+					<input type="text" class="form-control" ng-model="cliente.email" id="inputNome" placeholder="Insira o Email">
+				  </div>
+				  <div class="form-group col-md-3">
+					<label for="inputNome">Telefone Fixo:</label>
+					<input type="text" class="form-control" ng-model="cliente.telefone" id="inputNome" placeholder="Insira o Telefone Fixo">
+				  </div>
+				  <div class="form-group col-md-3">
+					<label for="inputNome">Celular:</label>
+					<input type="text" class="form-control" ng-model="cliente.celular" id="inputNome" placeholder="Insira o Celular">
+				  </div>
+				  		  
 			      <div class="form-group col-md-4">
 			            <label for="inputNome">Endereço:</label>
 					    <div class="input-group">
-					      <input type="text" class="form-control" ng-model="cliente.endereco.nomeLogradouro" placeholder="Insere Pesquisa Endereço...">
+					      <input type="text" class="form-control" ng-model="pesquisaEndereco" placeholder="Insere Pesquisa Endereço...">
 					      <span class="input-group-btn">
-					        <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#MyModal">Buscar Endereço !</button>
-					      </span>
+					        <button class="btn btn-warning" type="button" ng-click="pesquisaEnderecoDescricao()" data-toggle="modal" data-target="#MyModal">Buscar Endereço !</button>
+						  </span>
 					    </div><!-- /input-group -->
 				  </div><!-- /.col-lg-6 -->	
 				  				  
-				  <div id="MyModal" class="modal fade" role="dialog">
-				      <div class="modal-dialog">
-				      	 <div class="modal-content">
+				 
+				  <div id="MyModal" class="modal fade "  visible="showModal1" on-sown="modalOneShown()" on-hide="modalOneHide()">
+				      <div class="modal-dialog  ">
+				      	 <div class="modal-content custom-width-modal">
 				      	     <div class="modal-header">
-				      	        <div class="modal-title">Busca Endereço</div>
-				      	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+				      	        <div class="modal-title">Busca Endereço
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+				      	        
 				      	     </div>
-				      	     <div class="modal-body">Modal body
+				      	     <div class="modal-body">
+				      	     <h3> <span class="label label-warning" ng-repeat="mensagem_model in mensagens_model">{{mensagem_model}}<br></span></h3>
 				      	     <table class="table table-striped table-bordered table-hover">
 									<tr>
 									<th>Código</th>
@@ -95,10 +116,11 @@
 									<th>CEP</th>
 									<th>Cidade</th>
 									<th>Estado</th>
+									<th></th>
 									</tr>
 									<tbody>
 									<tr ng-repeat="logradouroTabela in logradouros | filter:criterio" 
-										ng-click="selecionaLogradouro(logradouroTabela)">					
+										>					
 										<td>{{logradouroTabela.codigo}}</td>
 										<td>{{logradouroTabela.tipoLogradouro}}</td>
 										<td>{{logradouroTabela.nomeLogradouro}}</td>
@@ -106,6 +128,7 @@
 										<td>{{logradouroTabela.cep}}</td>
 										<td>{{logradouroTabela.cidade.nomeCidade}}</td>
 										<td>{{logradouroTabela.cidade.estado.nomeEstado}}</td>
+										<td><button type="button" ng-click="selecionaLogradouro(logradouroTabela)" class="btn btn-info" data-dismiss="modal">Selecinar</button></td>
 									</tr>
 									</tbody>
 								</table>
@@ -114,16 +137,18 @@
 				      	         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				      	     </div>
 				      	     
-				      	 </div>
-				      </div>
-				  </div> 
+				      	   </div>
+				        </div>
+ 				      </div> 
+					
+				  
 				    <div class="form-group col-md-2">
 					         <label for="inputCodigo">Código:</label>
 					         <input type="number" class="form-control" disabled="true" ng-model="cliente.endereco.codigo" id="inputCodigo" placeholder="Código do Endereço">
 				          </div>
 				          <div class="form-group col-sm-2">
 				              <label for="inputTipoLogradouro" >Tipo Logradouro:</label>				      
-					          <input type="text" class="form-control" disabled="true" ng-model="cliente.endereco.tipologradouro" id="inputNome" placeholder="Tipo logradouro">			     
+					          <input type="text" class="form-control" disabled="true" ng-model="cliente.endereco.tipoLogradouro" id="inputNome" placeholder="Tipo logradouro">			     
 						  </div>				  
 						  <div class="form-group col-md-3">
 							<label for="inputNome">Nome Logradouro:</label>
@@ -145,6 +170,14 @@
 							<label for="inputEstado">Estado:</label>
 							<input type="text" class="form-control" disabled="true" ng-model="cliente.endereco.cidade.estado.nomeEstado" id="inputCodigo" placeholder="Nome Estado">
 						  </div>
+						  <div class="form-group col-md-2">
+							<label for="inputEstado">Numero:</label>
+							<input type="text" class="form-control"  ng-model="cliente.numero" id="inputNumero" placeholder="Informe numero">
+						  </div>
+						  <div class="form-group col-md-3">
+							<label for="inputEstado">Complemento:</label>
+							<input type="text" class="form-control"  ng-model="cliente.complemento" id="inputComplemento" placeholder="Informe o complemento do endereço">
+						  </div>
 				</form>
 				
 			</div>
@@ -157,7 +190,7 @@
 				<tr>
 				<th>Código</th>
 				<th>Nome</th>
-				<th>CFP</th>
+				<th>CPF</th>
 				<th>Sexo</th>
 				</tr>
 				<tbody>

@@ -27,8 +27,8 @@ public class ClienteService implements IClienteService {
 
 	@Override
 	@POST
-	public void salvar(Cliente cliente) {
-		clienteDao.salvar(cliente);
+	public Cliente salvar(Cliente cliente) {
+		return clienteDao.salvar(cliente);
 	}
 
 	@Override

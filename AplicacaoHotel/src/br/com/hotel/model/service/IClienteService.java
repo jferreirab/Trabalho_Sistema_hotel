@@ -2,13 +2,17 @@ package br.com.hotel.model.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.executable.ValidateOnExecution;
+
 import br.com.hotel.model.domain.Cliente;
 
 
 
 public interface IClienteService {
-
-	void salvar(Cliente cliente);
+    
+	@ValidateOnExecution
+	Cliente salvar(@Valid Cliente cliente);
 
 	void atualizar(Cliente cliente);
 

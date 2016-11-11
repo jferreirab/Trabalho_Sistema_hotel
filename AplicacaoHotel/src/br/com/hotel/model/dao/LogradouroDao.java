@@ -19,8 +19,9 @@ public class LogradouroDao implements ILogradouroDao {
 	
 	@Override
 	@Transactional
-	public void salvar(Logradouro logradouro) {
+	public Logradouro salvar(Logradouro logradouro) {
 		entityManager.persist(logradouro);
+		return logradouro;
 	}
 	
 
@@ -51,5 +52,15 @@ public class LogradouroDao implements ILogradouroDao {
 		Query query = entityManager.createQuery("from Logradouro where codigo = :codigo");
 		query.setParameter("codigo",id);
 		return (Logradouro)query.getSingleResult();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Logradouro> buscarPelaDescricao(String nome){
+		Query query = entityManager.createQuery("from Logradouro where nomeLogradouro LIKE :nomeLogradouro ");
+		
+		query.setParameter("nomeLogradouro", "%"+nome+"%");
+		 List<Logradouro> temp =query.getResultList();
+		 return temp;
 	}
 }
