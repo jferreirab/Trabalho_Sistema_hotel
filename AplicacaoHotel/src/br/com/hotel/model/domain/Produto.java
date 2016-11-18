@@ -25,6 +25,14 @@ public class Produto {
 	
 	@Column(name="DESCRICAO")
 	private String descricao;
+	
+	public Produto() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Produto(Integer codigo) {
+		this.codigo = codigo;
+	}
 
 	public Integer getCodigo() {
 		return codigo;

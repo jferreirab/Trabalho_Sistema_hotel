@@ -41,6 +41,15 @@ public class Consumo {
 	@JoinColumn(name="CD_CONSUMO")
 	private List<ItemConsumo> itensConsumo;
 
+	public Consumo() {
+		
+	}
+	
+	public Consumo(Integer codigo) {
+		this.codigo = codigo;
+	}
+	
+	
 	public String getDescricao() {
 		return descricao;
 	}
