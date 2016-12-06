@@ -13,7 +13,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import br.com.hotel.model.dao.IConsumoDao;
 import br.com.hotel.model.dao.IReservaDao;
+import br.com.hotel.model.domain.Consumo;
 import br.com.hotel.model.domain.Reserva;
 import br.com.hotel.model.service.IReservaService;
 
@@ -24,16 +26,38 @@ public class ReservaService implements IReservaService {
 
 	@Inject
 	private IReservaDao reservaDao;
+	
+	@Inject
+	private IConsumoDao consumoDao;
 
 	@Override
 	@POST
 	public Reserva salvar(Reserva reserva) {
+		if(reserva.getConsumo() != null){
+			if(reserva.getConsumo().getCodigo() == null){
+				Consumo consumo = 	consumoDao.salvar(reserva.getConsumo());
+				reserva.getConsumo().setCodigo(consumo.getCodigo());
+			}
+			else{
+				consumoDao.atualizar(reserva.getConsumo());
+			}
+		}
 		return reservaDao.salvar(reserva);
 	}
 
 	@Override
 	@PUT
 	public void atualizar(Reserva reserva) {
+		if(reserva.getConsumo() != null){
+			
+			if(reserva.getConsumo().getCodigo() == null){
+				Consumo consumo = 	consumoDao.salvar(reserva.getConsumo());
+				reserva.getConsumo().setCodigo(consumo.getCodigo());
+			}
+			else{
+				 consumoDao.atualizar(reserva.getConsumo());
+			}
+		}
 		reservaDao.atualizar(reserva);
 	}
 
@@ -54,6 +78,7 @@ public class ReservaService implements IReservaService {
 	@Override
 	@GET
 	public List<Reserva> buscarTodos() {
-		return reservaDao.buscar(new Reserva());
+		List<Reserva>	reservas  = reservaDao.buscar(new Reserva());
+		return reservas;
 	}
 }
