@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name="TB_QUARTO")
 public class Quarto implements Serializable {
 	
-	
+	 
 	/**
 	 * 
 	 */
