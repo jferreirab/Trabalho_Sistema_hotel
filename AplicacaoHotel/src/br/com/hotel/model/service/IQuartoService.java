@@ -19,4 +19,6 @@ public interface IQuartoService {
 	List<Quarto> buscarTodos();
 	
 	public Quarto buscarPorId(Integer codigo);
-}
+	
+	/*public List<Quarto> buscaQuartoLivre(Reserva reserva);*/
+ }

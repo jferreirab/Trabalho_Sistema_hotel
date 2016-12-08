@@ -58,5 +58,13 @@ public class QuartoService implements IQuartoService{
 		public List<Quarto> buscarTodos() {
 			return quartoDao.buscar(new Quarto());
 		}
+		
+		/*@GET
+		@Override
+		@Path("/desc/[reserva]")
+		public List<Quarto> buscaQuartoLivre(@PathParam("reserva" ) Reserva reserva ){
+			//Reserva reserva = new Reserva();
+			return quartoDao.buscaQuartoLivre(reserva);
+		}*/
 
 }
