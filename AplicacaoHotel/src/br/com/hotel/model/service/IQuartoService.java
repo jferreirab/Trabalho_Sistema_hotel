@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.executable.ValidateOnExecution;
 
-import br.com.hotel.model.domain.Estado;
 import br.com.hotel.model.domain.Quarto;
 
 public interface IQuartoService {
@@ -20,4 +19,6 @@ public interface IQuartoService {
 	List<Quarto> buscarTodos();
 	
 	public Quarto buscarPorId(Integer codigo);
-}
+	
+	/*public List<Quarto> buscaQuartoLivre(Reserva reserva);*/
+ }
