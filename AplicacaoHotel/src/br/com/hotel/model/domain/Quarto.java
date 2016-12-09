@@ -1,6 +1,7 @@
 package br.com.hotel.model.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,14 +12,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.Email;
-
 @XmlRootElement
 @Entity
 @Table(name="TB_QUARTO")
 public class Quarto implements Serializable {
 	
-	
+	 
 	/**
 	 * 
 	 */
@@ -40,6 +39,9 @@ public class Quarto implements Serializable {
 	
 	@Column(name="TP_QUARTO")
 	private TipoQuarto tipoQuarto;
+	
+	@Column(name="VR_DIARIA")
+	private BigDecimal valorDiaria;
 	
 	public Quarto() {super();}
 	
@@ -78,4 +80,13 @@ public class Quarto implements Serializable {
 	public void setTipoQuarto(TipoQuarto tipoQuarto) {
 		this.tipoQuarto = tipoQuarto;
 	}
+
+	public BigDecimal getValorDiaria() {
+		return valorDiaria;
+	}
+
+	public void setValorDiaria(BigDecimal valorDiaria) {
+		this.valorDiaria = valorDiaria;
+	}
+	
 }
