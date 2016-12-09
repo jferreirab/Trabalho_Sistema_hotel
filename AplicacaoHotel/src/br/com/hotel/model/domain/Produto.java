@@ -1,5 +1,6 @@
 package br.com.hotel.model.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -13,8 +14,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @Entity
 @Table(name="TB_PRODUTO")
-public class Produto {
+public class Produto implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="CD_PRODUTO")	
@@ -27,7 +33,7 @@ public class Produto {
 	private String descricao;
 	
 	public Produto() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 	
 	public Produto(Integer codigo) {
