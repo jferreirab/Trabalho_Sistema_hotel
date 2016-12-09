@@ -72,6 +72,7 @@ app.controller('cidadeControl',function($scope,$http) {
 	
 	$scope.seleciona = function (cidade) {
 		$scope.cidade = cidade; 
+		$('#myTab a:first').tab('show')
 	};	
 	
 	$scope.pesquisar();

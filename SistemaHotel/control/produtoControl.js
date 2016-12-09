@@ -1,22 +1,22 @@
-var app = angular.module('estadoModule',[]);
-app.controller('estadoControl',function($scope,$http) {
+var app = angular.module('produtoModule',[]);
+app.controller('produtoControl',function($scope,$http) {
 	
-	urlUf = 'http://127.0.0.1:8080/AplicacaoHotel/rs/estado';
+	urlProduto = 'http://127.0.0.1:8080/AplicacaoHotel/rs/produto';
 	
 	$scope.salvar = function() {
-		if($scope.estado.codigo == undefined || $scope.estado.codigo == ''){
-			$http.post(urlUf,$scope.estado).success(function(estado){
-				$scope.estados.push($scope.estado);
+		if($scope.produto.codigo == undefined || $scope.produto.codigo == ''){
+			$http.post(urlProduto,$scope.produto).success(function(produto){
+				$scope.pesquisar();
 				$scope.novo();
-				$scope.mensagens.push('Estado salva com sucesso');
+				$scope.mensagens.push('Produto salvo com sucesso');
 			}).error(function (erro){
 				$scope.montaMensagemErro(erro.parameterViolations);
 			});
 		}else{
-			$http.put(urlUf,$scope.estado).success(function(estado) {
+			$http.put(urlProduto,$scope.produto).success(function(produto) {
 				$scope.pesquisar();
 				$scope.novo();
-				$scope.mensagens.push('Estado atualizada com sucesso');
+				$scope.mensagens.push('Produto atualizado com sucesso');
 			}).error(function (erro) {
 				$scope.montaMensagemErro(erro.parameterViolations);
 			});
@@ -32,22 +32,22 @@ app.controller('estadoControl',function($scope,$http) {
 	}
 	
 	$scope.pesquisar = function() {
-		$http.get(urlUf).success(function (estados) {
-			$scope.estados = estados;
+		$http.get(urlProduto).success(function (produtos) {
+			$scope.produtos = produtos;
 		}).error(function (erro) {
 			alert(erro);
 		});
 	}
 	
 	$scope.excluir = function() {
-		if($scope.estado.codigo == undefined || $scope.estado.codigo == ''){
-			$scope.mensagens.push('selecione uma estado');
+		if($scope.produto.codigo == undefined || $scope.produto.codigo == ''){
+			$scope.mensagens.push('selecione um produto');
 		}else{
-			urlExcluir = urlUf+'/'+$scope.estado.codigo;
+			urlExcluir = urlProduto+'/'+$scope.produto.codigo;
 			$http.delete(urlExcluir).success(function() {
 				$scope.pesquisar();
 				$scope.novo();
-				$scope.mensagens.push('Estado excluída com sucesso');
+				$scope.mensagens.push('Produto excluído com sucesso');
 			}).error(function (erro){
 				$scope.montaMensagemErro(erro.parameterViolations);
 			});
@@ -56,17 +56,15 @@ app.controller('estadoControl',function($scope,$http) {
 	}
 	
 	$scope.novo = function () { 
-		$scope.estado = {};
+		$scope.produto = {};
 		$scope.mensagens = [];
 	}; 	
 	
-	$scope.seleciona = function (estado) {
-		$scope.estado = estado; 
-		$('#myTab a:first').tab('show')
+	$scope.seleciona = function (produto) {
+		$scope.produto = produto;
+        $('#myTab a:first').tab('show')
 	};	
 	
 	$scope.pesquisar();
-	
-
 	
 });

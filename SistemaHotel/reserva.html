@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="reservaModule">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Sistema Hotel</title>
+
+    <!-- Bootstrap -->
+   
+    <!-- <link href="css/jasny-bootstrap.css" rel="stylesheet">
+    <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="./bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"> -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jasny-bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/simple-autocomplete.css">
+ 
+	
+	<script src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/simple-autocomplete.js"></script>
+	<script src="control/reservaControl.js"></script>
+	<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+	<!-- Table Panel -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/table-panel.css">
+    
+  </head>
+<body ng-controller="reservaControl">
+
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   <!-- <script src="js/jquery-1.12.2.min.js"></script> -->
+   <!-- Include all compiled plugins (below), or include individual files as needed -->
+   <!-- <script src="js/bootstrap.min.js"></script> -->
+    <script src="js/jquery-1.12.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	
+   <div ng-include="'menu.html'"></div>
+	
+   <div class="panel panel-default">
+   <div class="panel-heading">Cadastro de Reservas</div>
+   <div class="panel-body">
+	   <div>
+		  <!-- Nav tabs -->
+		  <ul id="myTab" class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+			<a href="#cadastro" aria-controls="cadastro" role="tab" data-toggle="tab">Cadastro</a></li>
+			<li role="presentation">
+			<a href="#dados" aria-controls="dados" role="tab" data-toggle="tab">Dados</a></li>
+		  </ul>
+
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="cadastro">
+			<br>				
+				<form action="" class="form-vertical"  role="form">
+				 
+				    <h3> <span class="label label-success" ng-repeat="mensagem in mensagens">{{mensagem}}<br></span></h3>
+				    <h3> <span class="label label-danger" ng-repeat="mensagemDanger in mensagensDanger">{{mensagemDanger}}<br></span></h3>
+					<div class="form-group">
+						<button type="button" ng-click="novo()" class="btn btn-info">Novo</button>
+						<button type="submit" ng-click="salvar()" class="btn btn-success">Salvar</button>
+						<button type="button" ng-click="excluir()" class="btn btn-danger">Excluir</button>
+						<button type="button" ng-click="pesquisar()" class="btn btn-warning">Pesquisar</button>
+					</div>	
+				  <hr/>	
+		      <div class="panel panel-default">
+  			    <div class="panel-heading">Reserva</div>
+   			   <div class="panel-body">
+				  <div class="form-group col-md-2">
+					<label for="inputCodigo">Código:</label>
+					<input type="number" class="form-control" disabled="true" ng-model="reserva.codigo" id="inputCodigo" placeholder="Código da Reserva">
+				  </div>
+				  <div class="form-group col-sm-3">
+						      <label for="inputCliente" >Cliente:</label>					     
+					          <select  class="form-control"
+					            ng-model="reserva.cliente"
+					            ng-options="cliente.nome for cliente in clientes track by cliente.codigo">					             
+					          </select>				     
+						  </div>	  
+				   <div class="form-group col-sm-2">
+				      <label for="inputSituacao" >Situação Reserva:</label>
+				      <select class="form-control"
+				            ng-model="reserva.situacaoReserva"
+				            ng-options="situacaoReserva for situacaoReserva in situacaoReservas">				           			             
+			          </select>
+			      </div>
+			      
+				  <div class="form-group col-md-2">
+					<label for="inputValorDiaria">Valor Diária:</label>
+					<input type="decimal" class="form-control"  disabled="true" ng-blur="getTotalReserva()" ng-model="reserva.valorDiaria" id="inputValorDiaria" placeholder="Insira valor Diária">
+				  </div>
+				  <div class="form-group col-md-2">
+					<label for="inputValorTotal">Valor Total:</label>
+					<input type="decimal" class="form-control" disabled="true" ng-model="reserva.valorTotalReserva" id="inputtotal" placeholder=" Valor total reserva">
+				  </div>
+				  <div class="form-group col-md-3">
+					<label for="inputDataEntrada">Data Entrada:</label>
+					<input type="datetime-local" class="form-control"   ng-blur="getTotalReserva()"  ng-model="reserva.dataEntrada" id="inputDataEntrada">
+				  </div>
+				  <div class="form-group col-md-3">
+					<label for="inputDataSaida">Data Saída:</label>
+					<input type="datetime-local" class="form-control"   ng-blur="getTotalReserva()" ng-model="reserva.dataSaida" id="inputDataSaida" >
+				  </div>
+				  
+				 <!-- modal seleciona quarto  --> 	
+				  <div class="form-group col-md-2">
+			          <label for="inputQuarto">Quarto:</label>					      
+				      <span class="input-group-btn">
+				        <button class="btn btn-info" type="button" ng-click="pesquisaQuarto()" data-toggle="modal" data-target="#MyModal">Buscar Quarto !</button>
+					  </span>					   
+				  </div>		  				  
+				 
+				  <div id="MyModal" class="modal fade "  visible="showModal1" on-sown="modalOneShown()" on-hide="modalOneHide()">
+				      <div class="modal-dialog  ">
+				      	 <div class="modal-content custom-width-modal">
+				      	     <div class="modal-header">
+				      	        <div class="modal-title">Busca Quartos Disponiveis
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+				      	        
+				      	     </div>
+				      	     <div class="modal-body">
+				      	     <h3> <span class="label label-warning" ng-repeat="mensagem_model in mensagens_model">{{mensagem_model}}<br></span></h3>
+				      	     <table class="table table-striped table-bordered table-hover">
+									<tr>
+									<th>Código</th>
+									<th>Número do Quarto</th>
+									<th>Número de Leitos</th>									
+									<th>Tipo do Quarto</th>
+									<th>Valor Diária</th>
+									<th></th>
+									</tr>
+									<tbody>
+									<tr ng-repeat="quartoTabela in quartos | filter:criterio"
+										>					
+										<td>{{quartoTabela.codigo}}</td>	
+										<td>{{quartoTabela.numQuarto}}</td>							
+										<td>{{quartoTabela.numLeitos}}</td>										
+                                		<td>{{quartoTabela.tipoQuarto}}</td>
+                                		<td>{{quartoTabela.valorDiaria}}</td>
+										<td><button type="button" ng-click="selecionaQuarto(quartoTabela)" class="btn btn-info" data-dismiss="modal">Selecinar</button></td>
+									</tr>
+									</tbody>
+								</table>
+				      	     </div>
+				      	     <div class="modal-footer">
+				      	         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      	     </div>
+				      	     
+				      	   </div>
+				        </div>
+ 				      </div> 	  
+			      			  		
+					<div class="form-group col-md-2">
+				         <label for="inputCodigo">Código:</label>
+				         <input type="number" class="form-control"  disabled="true" ng-model="reserva.quarto.codigo" id="inputCodigo" placeholder="Código do Quarto">
+			        </div>				          				  
+					<div class="form-group col-md-2">
+						<label for="inputNumLeitos">Número de Leitos:</label>
+						<input type="number"  class="form-control" ng-model="reserva.quarto.numLeitos"   disabled="true"id="inputNumLeitos" placeholder="Número de leitos">
+					 </div>
+					
+					 <div class="form-group col-md-2">
+						<label for="inputNumQuarto">Número do Quarto:</label>
+						<input type="number"   class="form-control" ng-model="reserva.quarto.numQuarto"  disabled="true" id="inputNumQuarto" placeholder="Número do quarto">
+	                 </div>  
+	                 <div class="form-group col-md-3">
+						<label for="inputTipoQuarto">Tipo do Quarto:</label>
+						<input type="text"  class="form-control" ng-model="reserva.quarto.tipoQuarto"  disabled="true"  id="inputTipoQuarto" placeholder="Tipo quarto">
+					 </div>	  
+		    
+   			   </div></div>
+		    </form>
+		    
+		   
+		    <!-- Itens consumidos -->
+		    
+   			<div class="panel panel-default">
+  			<div class="panel-heading">Itens Consumidos na Estadia</div>
+   			<div class="panel-body">
+   			
+		    <div >
+		    
+		    <form  action="" class="form-Vertical"  role="form">
+		   
+		    	<div class="row">
+						  <div class="form-group col-md-2">
+							 <label for="inputCodigo">Código:</label>
+							 <input type="number" class="form-control" type="number" disabled="true" ng-model="reserva.consumo.codigo" id="inputCodigo" placeholder="Código do consumo">
+						  </div>						  
+						  <div class="form-group col-md-4">
+							<label for="inputDescricao">Descrição:</label>
+							<input type="text" required class="form-control"  ng-model="reserva.consumo.descricao" id="inputDescricao" placeholder="Insira descrição">
+						  </div>
+
+						  <div class="form-group col-md-2">
+							<label for="inputValor">Total Consumo:</label>
+							<input type="decimal" min="0" class="form-control" disabled="true" ng-model="reserva.consumo.valorTotal" id="inputValor" placeholder="Valor total do consumo">
+							<!-- <output ng-model="getTotal()"></output> -->
+						  </div>
+				</div>						
+			 			
+				  
+				  
+				<div class="col-md-10 col-md-offset-1">
+					<div class="panel panel-default panel-table">
+					  <div class="panel-heading">
+						<div class="row">
+						  <div class="col col-xs-6">
+							<h3 class="panel-title">Produtos</h3>
+						  </div>
+						  <div class="col col-xs-6 text-right">
+							<autocomplete style="width:100px"  options="produtos" 
+															place-holder="Escolha um produto..."
+															on-select="onSelect" 
+															display-property="descricao"
+															input-class="form-control"
+															clear-input="false"></autocomplete>	
+						  </div>
+						</div>
+					  </div>
+					  <div class="panel-body">
+						<table class="table table-striped table-bordered table-list">
+						  <thead>
+							<tr>
+								<th><em class="fa fa-cog"></em></th>
+								<th class="hidden-xs">Nome Produto</th>
+								<th>Valor</th>
+								<th>Quantidade</th>
+								<th>Valor Total</th>
+							</tr> 
+						  </thead>
+						  <tbody>
+								  <tr ng-repeat="item in reserva.consumo.itemConsumo">
+									<td align="center">
+									  <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+									</td>
+									<td class="hidden-xs">{{item.produto.descricao}}</td>
+									<td>R${{item.valorUnitario}}</td>
+									<td><div class="form-group col-md-4"><input type="decimal" class="form-control"   ng-blur="getTotal()" ng-model="item.quantidade" id="inputQuantidade" placeholder="Quantidade do produto"></div></td>
+									<td><div class="col-lg-4 "><input disabled="true" type="decimal" class="form-control"  ng-model="item.valorTotal" id="inputvalortotal" placeholder="Valor Total"></div></td>
+																		
+								  </tr>
+						  </tbody>
+						</table>            
+					  </div>
+					</div>
+				</div> 
+			 	</form >	
+			</div>
+		    <!-- Fim itens de consumo  -->
+		    </div></div>
+				
+			</div>
+			<div role="tabpanel" class="tab-pane" id="dados">
+			<br>
+			<input type="text" class="form-control" ng-model="criterio"
+				placeholder="O que você está procurando?" /><br>
+				
+			<table class="table table-striped table-bordered table-hover">
+				<tr>
+				<th>Código</th>
+				<th>Nome</th>
+				<th>Data Entrada</th>
+				<th>Data Saída</th>
+				
+				</tr>
+				<tbody>
+				<tr ng-repeat="reservaTabela in reservas | filter:criterio" 
+					ng-click="seleciona(reservaTabela)">					
+					<td>{{reservaTabela.codigo}}</td>
+					<td>{{reservaTabela.cliente.nome}}</td>
+					<td>{{reservaTabela.dataEntrada}}</td>
+					<td>{{reservaTabela.dataSaida}}</td>
+					
+				</tr>
+				</tbody>
+			</table>
+			<span ng-show="(clientes | filter:criterio).length == 0">Infelizmente
+			não temos o item que você está procurando!</span>
+
+			</div>
+		  </div>
+
+		</div>
+		</div>
+	</div>
+		
+	<!-- <script type="text/javascript" src="./jquery/jquery-1.8.3.min.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./bootstrap/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="./bootstrap/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+	<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        language:  'pt-BR',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+	
+</script> -->
+  </body>
+</html>

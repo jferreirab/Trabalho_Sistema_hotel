@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="consumoModule">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Sistema Hotel</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/simple-autocomplete.css">
+	
+	<script src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/simple-autocomplete.js"></script>
+	<script src="control/consumoControl.js"></script>
+	
+	<!-- Table Panel -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/table-panel.css">
+	
+  </head>
+<body ng-controller="consumoControl">
+
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   <script src="js/jquery-1.12.2.min.js"></script>
+   <!-- Include all compiled plugins (below), or include individual files as needed -->
+   <script src="js/bootstrap.min.js"></script>
+	
+   <div ng-include="'menu.html'"></div>
+	
+   <div class="panel panel-default">
+   	   <div class="panel-heading">Cadastro de Consumos</div>
+   	   <div class="panel-body">
+	   	  <div>
+		      <!-- Nav tabs -->		 		
+		      <ul id="myTab" class="nav nav-tabs" role="tablist">
+			      <li name="cadastro" role="presentation" class="active">
+			          <a href="#cadastro" aria-controls="cadastro" role="tab" data-toggle="tab">Consumo</a></li>
+			      <li name="dados" role="presentation">
+			         <a href="#dados" aria-controls="dados" role="tab" data-toggle="tab">Dados</a></li>
+		      </ul>
+		      <!-- Tab panes -->
+		      <div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="cadastro">
+				  <br>				
+				  <form>
+					  <span ng-repeat="mensagem in mensagens">{{mensagem}}<br></span>
+					  
+					  <div class="form-group">
+						  <button type="button" ng-click="novo()" class="btn btn-info">Novo</button>
+						  <button type="submit" ng-click="salvar()" class="btn btn-success">Salvar</button>
+						  <button type="button" ng-click="excluir()" class="btn btn-danger">Excluir</button>
+						  <button type="button" ng-click="pesquisar()" class="btn btn-warning">Pesquisar</button>
+					  </div>	
+					  <hr/>	
+					  <div class="row">
+						  <div class="form-group col-md-2">
+							 <label for="inputCodigo">Código:</label>
+							 <input type="number" class="form-control" type="number" disabled="true" ng-model="consumo.codigo" id="inputCodigo" placeholder="Código do consumo">
+						  </div>						  
+						  <div class="form-group col-md-3">
+							<label for="inputDescricao">Descrição:</label>
+							<input type="text" required class="form-control"  ng-model="consumo.descricao" id="inputDescricao" placeholder="Insira descrição">
+						  </div>
+
+						  <div class="form-group col-md-3">
+							<label for="inputValor">Total:</label>
+							<input type="decimal" min="0" class="form-control" disabled="true" ng-model="getTotal()" id="inputValor" placeholder="Valor total do consumo">
+						  </div>
+					  </div>						
+				  </form>				
+				  
+				  
+					<div class="col-md-10 col-md-offset-1">
+						<div class="panel panel-default panel-table">
+						  <div class="panel-heading">
+							<div class="row">
+							  <div class="col col-xs-6">
+								<h3 class="panel-title">Produtos</h3>
+							  </div>
+							  <div class="col col-xs-6 text-right">
+								<autocomplete style="width:100px"  options="datas" 
+																place-holder="Escolha um produto..."
+																on-select="onSelect" 
+																display-property="title"
+																input-class="form-control"
+																clear-input="false"></autocomplete>	
+							  </div>
+							</div>
+						  </div>
+						  <div class="panel-body">
+							<table class="table table-striped table-bordered table-list">
+							  <thead>
+								<tr>
+									<th><em class="fa fa-cog"></em></th>
+									<th class="hidden-xs">Nome Produto</th>
+									<th>Valor</th>
+									<th>Quantidade</th>
+								</tr> 
+							  </thead>
+							  <tbody>
+									  <tr ng-repeat="item in consumo.itensConsumo">
+										<td align="center">
+										  <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+										</td>
+										<td class="hidden-xs">{{item.produto.title}}</td>
+										<td>R${{item.produto.valor}}</td>
+										<td><div class="col-lg-3 "><input type="decimal" class="form-control" ng-model="item.quantidade" id="inputQuantidade" placeholder="Quantidade do produto"></div></td>
+									  </tr>
+									</tbody>
+							</table>            
+						  </div>
+						</div>
+					</div> 
+			</div>	
+				  
+			      <div role="tabpanel" class="tab-pane" id="dados">
+					  <br>
+					  <input type="text" class="form-control" ng-model="criterio"
+							placeholder="O que você está procurando?" />
+					  <br>							
+					  <table class="table table-striped table-bordered table-hover">
+							<tr>
+							<th>Código</th>
+							<th>Valor</th>
+							<th>Descrição</th>
+							</tr>
+							<tbody>
+							<tr ng-repeat="consumoTabela in consumos | filter:criterio" 
+								ng-click="seleciona(consumoTabela)">					
+								<td>{{consumoTabela.codigo}}</td>								
+								<td>{{consumoTabela.valorTotal}}</td>
+								<td>{{consumoTabela.descricao}}</td>
+							</tr>
+							</tbody>
+						</table>
+					    <span ng-show="(consumos | filter:criterio).length == 0">Infelizmente
+			                  não temos o item que você está procurando!</span>
+			      </div>
+		      </div>
+	   	  </div>
+   	   </div>
+   </div>		
+</body>
+</html>
