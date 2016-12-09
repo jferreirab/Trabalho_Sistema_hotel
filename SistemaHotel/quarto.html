@@ -58,13 +58,17 @@
 						  <div class="form-group col-md-3">
 							<label for="inputNumQuarto">Número do Quarto:</label>
 							<input type="number" min="0" max="999" required class="form-control" ng-model="quarto.numQuarto" id="inputNumQuarto" placeholder="Insira o número do quarto">
-                          </div>
+                          </div>                          
                           <div class="form-group col-sm-2">
 				              <label for="inputTipoQuarto" >Tipo do Quarto:</label>				      
 					          <select id="inputTipoQuarto" class="form-control"
 					            ng-model="quarto.tipoQuarto"
 					            ng-options="tipoQuarto for tipoQuarto in tiposQuartos">					             
 					          </select>				     
+						  </div>
+						  <div class="form-group col-md-2">
+							<label for="inputValorDiaria">Valor Diária:</label>
+							<input type="text" class="form-control" ng-model="quarto.valorDiaria" id="inputVrDiaria" placeholder="Insira valor da diária">
 						  </div>
 				      </form>				
 			      </div>
@@ -79,6 +83,7 @@
 							<th>Número de Leitos</th>
 							<th>Número do Quarto</th>
 							<th>Tipo do Quarto</th>
+							<th>Valor Diária</th>
 							</tr>
 							<tbody>
 							<tr ng-repeat="quartoTabela in quartos | filter:criterio" 
@@ -87,6 +92,7 @@
 								<td>{{quartoTabela.numLeitos}}</td>
 								<td>{{quartoTabela.numQuarto}}</td>
                                 <td>{{quartoTabela.tipoQuarto}}</td>
+                                <td>{{quartoTabela.valorDiaria}}</td>
 							</tr>
 							</tbody>
 						</table>
