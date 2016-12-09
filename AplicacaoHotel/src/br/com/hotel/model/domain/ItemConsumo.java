@@ -1,5 +1,6 @@
 package br.com.hotel.model.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -13,11 +14,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @XmlRootElement
 @Entity
 @Table(name="TB_ITEM_CONSUMO")
-public class ItemConsumo {
+public class ItemConsumo implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -35,6 +43,7 @@ public class ItemConsumo {
 	
 	@ManyToOne
 	@JoinColumn(name="CD_CONSUMO")
+	@JsonBackReference
 	private Consumo consumo;
 	
 	@OneToOne
