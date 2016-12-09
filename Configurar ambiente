@@ -1,0 +1,23 @@
+-- criar data base
+
+create database dbhotelds;
+
+--alterar o arquivo de configuração do wildfly 
+wildfly-10.1.0.Final\standalone\configuration\standalone-full.xml
+
+-- acrescentar dentro da tag <datasources>  a configuração do banco que foi criado acima
+
+<datasource jndi-name="java:jboss/datasources/HotelDS" pool-name="HotelDS" enabled="true" use-java-context="true">
+    <connection-url>jdbc:mysql://localhost:3306/dbhotelds</connection-url>
+    <driver>mysql</driver>
+    <pool>
+        <min-pool-size>5</min-pool-size>
+        <max-pool-size>30</max-pool-size>
+        <prefill>true</prefill>
+    </pool>
+    <security>
+        <user-name>root</user-name>
+    </security>
+</datasource>
+
+
