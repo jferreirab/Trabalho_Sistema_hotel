@@ -1,5 +1,6 @@
 package br.com.hotel.model.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,17 +12,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @XmlRootElement
 @Entity
 @Table(name="TB_CONSUMO")
-public class Consumo {
+public class Consumo implements Serializable{
+	
+	
 		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="CD_CONSUMO")	
@@ -33,13 +41,14 @@ public class Consumo {
 	@Column(name="VR_TOTAL",precision=8,scale=2)
 	private BigDecimal valorTotal;	
 	
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name="CD_RESERVA")
-	private Reserva reserva;
+	private Reserva reserva;*/
 	
-	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-	@JoinColumn(name="CD_CONSUMO")
-	private List<ItemConsumo> itensConsumo;
+	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JoinColumn(name="CD_CONSUMO") 
+	@JsonManagedReference
+	private List<ItemConsumo> itemConsumo;
 
 	public Consumo() {
 		
@@ -66,20 +75,28 @@ public class Consumo {
 		this.valorTotal = valorTotal;
 	}
 
-	public Reserva getReserva() {
+	/*public Reserva getReserva() {
 		return reserva;
 	}
 
 	public void setReserva(Reserva reserva) {
 		this.reserva = reserva;
+	}*/
+
+	public List<ItemConsumo> getItemConsumo() {
+		return itemConsumo;
 	}
 
-	public List<ItemConsumo> getItensConsumo() {
-		return itensConsumo;
+	public void setItenConsumo(List<ItemConsumo> itemConsumo) {
+		this.itemConsumo = itemConsumo;
 	}
 
-	public void setItensConsumo(List<ItemConsumo> itensConsumo) {
-		this.itensConsumo = itensConsumo;
+	public Integer getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
 	}
 	
 }
