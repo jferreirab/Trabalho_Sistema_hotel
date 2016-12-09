@@ -62,6 +62,7 @@ app.controller('estadoControl',function($scope,$http) {
 	
 	$scope.seleciona = function (estado) {
 		$scope.estado = estado; 
+		$('#myTab a:first').tab('show')
 	};	
 	
 	$scope.pesquisar();

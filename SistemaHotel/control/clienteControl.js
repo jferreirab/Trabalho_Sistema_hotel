@@ -121,6 +121,7 @@ app.controller('clienteControl',function($scope,$http) {
 	$scope.seleciona = function (cliente) {
 		$scope.cliente = cliente; 
 		$scope.mensagens = [];
+		$('#myTab a:first').tab('show')
 	};	
 	
 	$scope.selecionaLogradouro = function (logradouro) {

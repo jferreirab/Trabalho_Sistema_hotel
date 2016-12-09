@@ -79,6 +79,7 @@ app.controller('enderecoControl',function($scope,$http) {
 	
 	$scope.seleciona = function (logradouro) {
 		$scope.logradouro = logradouro; 
+		$('#myTab a:first').tab('show')
 	};	
 	
 	$scope.pesquisar();
