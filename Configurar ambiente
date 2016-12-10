@@ -1,3 +1,5 @@
+
+url aplicação = http://localhost/SistemaHotel
 -- criar data base
 
 create database dbhotelds;
